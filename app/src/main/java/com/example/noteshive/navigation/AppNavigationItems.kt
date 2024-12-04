@@ -1,0 +1,7 @@
+package com.example.noteshive.navigation
+
+sealed class AppNavigationItems(val route: String) {
+    object BranchSelectionScreen: AppNavigationItems(route = "branchSelection")
+    object YearSelectionScreen: AppNavigationItems(route = "yearSelection")
+    object SubjectSelectionScreen: AppNavigationItems(route = "subjectSelection")
+}
