@@ -1,6 +1,5 @@
 package com.example.noteshive.screens
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -19,7 +18,6 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -31,8 +29,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 @Composable
 fun SubjectSelectScreen(modifier: Modifier = Modifier, id: String, navController: NavHostController) {
-
-    val context = LocalContext.current
 
     val ids = id.split("|")
 
