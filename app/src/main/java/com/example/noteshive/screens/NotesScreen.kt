@@ -24,28 +24,23 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
-import com.example.noteshive.models.SubjectModel
-import com.example.noteshive.navigation.AppNavigationItems
+import com.example.noteshive.models.NotesModel
 import com.google.firebase.firestore.FirebaseFirestore
 
 @Composable
-fun SubjectSelectScreen(modifier: Modifier = Modifier, id: String, navController: NavHostController) {
+fun NotesScreen(modifier: Modifier = Modifier, id: String){
 
     val context = LocalContext.current
 
-    val ids = id.split("|")
-
-    val data = remember { mutableStateListOf<SubjectModel>()}
+    val data = remember { mutableStateListOf<NotesModel>()}
 
     val db = FirebaseFirestore.getInstance()
-    val subjectsCollection = db.collection("subjects").whereIn("id", ids)
+    val branchCollection = db.collection("subjects").document(id).collection("notes")
 
     LaunchedEffect(Unit) {
-
-        subjectsCollection.addSnapshotListener{value, error->
+        branchCollection.addSnapshotListener{value, error->
             if(error == null){
-                val dbData = value?.toObjects(SubjectModel:: class.java)
+                val dbData = value?.toObjects(NotesModel:: class.java)
                 data.addAll(dbData!!)
             }
         }
@@ -59,7 +54,7 @@ fun SubjectSelectScreen(modifier: Modifier = Modifier, id: String, navController
     ) {
         Text(
             modifier = Modifier.padding(12.dp),
-            text = "Select Subject",
+            text = "Select Branch",
             style = TextStyle(
                 color = Color.White,
                 fontSize = 32.sp,
@@ -71,8 +66,8 @@ fun SubjectSelectScreen(modifier: Modifier = Modifier, id: String, navController
 
         LazyColumn {
             items(data){
-                ListObjectsSubject(it) {
-                    navController.navigate(AppNavigationItems.NotesSelectionScreen.route + "/${it.id}")
+                ListObjectsOthers(it) {
+                    Toast.makeText(context, it.downloadUrl, Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -80,7 +75,7 @@ fun SubjectSelectScreen(modifier: Modifier = Modifier, id: String, navController
 }
 
 @Composable
-fun ListObjectsSubject(data: SubjectModel, onClick: ()->Unit){
+fun ListObjectsOthers(data: NotesModel, onClick: ()->Unit){
     Card(
         modifier = Modifier.fillMaxWidth().padding(15.dp),
         colors = CardDefaults.cardColors(
@@ -90,7 +85,7 @@ fun ListObjectsSubject(data: SubjectModel, onClick: ()->Unit){
     ){
         Text(
             modifier = Modifier.padding(20.dp),
-            text = data.name,
+            text = data.title,
             style = TextStyle(
                 color = Color.LightGray,
                 fontSize = 24.sp,

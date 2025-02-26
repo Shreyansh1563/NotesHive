@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.noteshive.screens.HomeScreen
+import com.example.noteshive.screens.NotesScreen
 import com.example.noteshive.screens.SubjectSelectScreen
 import com.example.noteshive.screens.YearSelectScreen
 
@@ -24,7 +25,12 @@ fun AppNavigation(modifier: Modifier= Modifier, navController: NavHostController
 
         composable(route = AppNavigationItems.SubjectSelectionScreen.route+"/{path}"){
             val path = it.arguments?.getString("path")?:""
-            SubjectSelectScreen(modifier = modifier, path)
+            SubjectSelectScreen(modifier = modifier, path, navController)
+        }
+
+        composable(route = AppNavigationItems.NotesSelectionScreen.route+"/{id}"){
+            val id = it.arguments?.getString("id")?:""
+            NotesScreen(modifier= modifier, id = id)
         }
     }
 }

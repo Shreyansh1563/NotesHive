@@ -41,9 +41,13 @@ android {
 }
 
 dependencies {
-    implementation("androidx.navigation:navigation-compose:2.8.4")
 
-    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.8.7")
+    //Navigation
+    implementation(libs.androidx.navigation.compose.v285)
+    //ViewModel
+    implementation(libs.androidx.lifecycle.viewmodel.savedstate)
+    //PdfViewer
+    implementation(libs.coil.compose)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

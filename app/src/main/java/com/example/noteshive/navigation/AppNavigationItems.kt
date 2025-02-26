@@ -4,4 +4,5 @@ sealed class AppNavigationItems(val route: String) {
     object BranchSelectionScreen: AppNavigationItems(route = "branchSelection")
     object YearSelectionScreen: AppNavigationItems(route = "yearSelection")
     object SubjectSelectionScreen: AppNavigationItems(route = "subjectSelection")
+    object NotesSelectionScreen: AppNavigationItems(route= "notesSelection")
 }
