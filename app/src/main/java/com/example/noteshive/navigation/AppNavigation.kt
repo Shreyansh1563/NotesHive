@@ -5,32 +5,37 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.noteshive.screens.FireStoreImageScreen
 import com.example.noteshive.screens.HomeScreen
 import com.example.noteshive.screens.NotesScreen
 import com.example.noteshive.screens.SubjectSelectScreen
 import com.example.noteshive.screens.YearSelectScreen
+import com.example.noteshive.viewModel.OptionsViewModel
 
 @Composable
-fun AppNavigation(modifier: Modifier= Modifier, navController: NavHostController){
+fun AppNavigation(modifier: Modifier= Modifier, navController: NavHostController, viewModel: OptionsViewModel){
     NavHost(navController = navController, startDestination = AppNavigationItems.BranchSelectionScreen.route){
 
         composable(route = AppNavigationItems.BranchSelectionScreen.route){
-            HomeScreen(modifier, navController)
+            HomeScreen(modifier, navController, viewModel)
         }
 
-        composable(route = AppNavigationItems.YearSelectionScreen.route+"/{id}"){
-            val id = it.arguments?.getString("id")?:""
-            YearSelectScreen(modifier = modifier, id, navController)
+        composable(route = AppNavigationItems.YearSelectionScreen.route){
+            YearSelectScreen(modifier = modifier, navController, viewModel)
         }
 
-        composable(route = AppNavigationItems.SubjectSelectionScreen.route+"/{path}"){
-            val path = it.arguments?.getString("path")?:""
-            SubjectSelectScreen(modifier = modifier, path, navController)
+        composable(route = AppNavigationItems.SubjectSelectionScreen.route){
+            SubjectSelectScreen(modifier = modifier, navController, viewModel)
         }
 
         composable(route = AppNavigationItems.NotesSelectionScreen.route+"/{id}"){
             val id = it.arguments?.getString("id")?:""
-            NotesScreen(modifier= modifier, id = id)
+            NotesScreen(modifier= modifier, id = id, navController, viewModel)
+        }
+
+        composable(route = "imageScreen/{url}"){
+            val id = it.arguments?.getString("url")?: ""
+          FireStoreImageScreen(id)
         }
     }
 }

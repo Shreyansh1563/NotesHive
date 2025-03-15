@@ -25,27 +25,30 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.noteshive.models.SubjectModel
 import com.example.noteshive.navigation.AppNavigationItems
+import com.example.noteshive.viewModel.OptionsViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 
 @Composable
-fun SubjectSelectScreen(modifier: Modifier = Modifier, id: String, navController: NavHostController) {
+fun SubjectSelectScreen(modifier: Modifier = Modifier, navController: NavHostController, viewModel: OptionsViewModel) {
 
-    val ids = id.split("|")
+//    val ids = id.split("|")
+//
+//    val data = remember { mutableStateListOf<SubjectModel>()}
+//
+//    val db = FirebaseFirestore.getInstance()
+//    val subjectsCollection = db.collection("subjects").whereIn("id", ids)
+//
+//    LaunchedEffect(Unit) {
+//
+//        subjectsCollection.addSnapshotListener{value, error->
+//            if(error == null){
+//                val dbData = value?.toObjects(SubjectModel:: class.java)
+//                data.addAll(dbData!!)
+//            }
+//        }
+//    }
 
-    val data = remember { mutableStateListOf<SubjectModel>()}
-
-    val db = FirebaseFirestore.getInstance()
-    val subjectsCollection = db.collection("subjects").whereIn("id", ids)
-
-    LaunchedEffect(Unit) {
-
-        subjectsCollection.addSnapshotListener{value, error->
-            if(error == null){
-                val dbData = value?.toObjects(SubjectModel:: class.java)
-                data.addAll(dbData!!)
-            }
-        }
-    }
+    val data = viewModel.subjectData
 
 
     Column(
@@ -68,6 +71,7 @@ fun SubjectSelectScreen(modifier: Modifier = Modifier, id: String, navController
         LazyColumn {
             items(data){
                 ListObjectsSubject(it) {
+                    viewModel.subjectSelected(it)
                     navController.navigate(AppNavigationItems.NotesSelectionScreen.route + "/${it.id}")
                 }
             }

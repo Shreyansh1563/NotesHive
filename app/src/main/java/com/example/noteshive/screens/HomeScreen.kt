@@ -13,38 +13,36 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.noteshive.models.BranchModel
 import com.example.noteshive.navigation.AppNavigationItems
-import com.google.firebase.firestore.FirebaseFirestore
+import com.example.noteshive.viewModel.OptionsViewModel
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier, navController: NavHostController) {
+fun HomeScreen(modifier: Modifier = Modifier, navController: NavHostController,  viewModel: OptionsViewModel = viewModel()) {
 
-    val data = remember { mutableStateListOf<BranchModel>()}
+//    val data = remember { mutableStateListOf<BranchModel>()}
+//
+//    val db = FirebaseFirestore.getInstance()
+//    val branchCollection = db.collection("branches")
+//
+//    LaunchedEffect(Unit) {
+//        branchCollection.addSnapshotListener{value, error->
+//            if(error == null){
+//                val dbData = value?.toObjects(BranchModel:: class.java)
+//                data.addAll(dbData!!)
+//            }
+//        }
+//    }
 
-    val db = FirebaseFirestore.getInstance()
-    val branchCollection = db.collection("branches")
-
-    LaunchedEffect(Unit) {
-        branchCollection.addSnapshotListener{value, error->
-            if(error == null){
-                val dbData = value?.toObjects(BranchModel:: class.java)
-                data.addAll(dbData!!)
-            }
-        }
-    }
-
-
+    val data = viewModel.branchData
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -65,7 +63,8 @@ fun HomeScreen(modifier: Modifier = Modifier, navController: NavHostController) 
         LazyColumn {
             items(data){
                 ListObjectsOthers(it) {
-                    navController.navigate(AppNavigationItems.YearSelectionScreen.route+"/|branches|${it.id}")
+                    viewModel.branchSelected(it)
+                    navController.navigate(AppNavigationItems.YearSelectionScreen.route)
                 }
             }
         }

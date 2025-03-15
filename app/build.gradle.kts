@@ -45,9 +45,12 @@ dependencies {
     //Navigation
     implementation(libs.androidx.navigation.compose.v285)
     //ViewModel
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.viewmodel.savedstate)
     //PdfViewer
     implementation(libs.coil.compose)
+    // imageViewer
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

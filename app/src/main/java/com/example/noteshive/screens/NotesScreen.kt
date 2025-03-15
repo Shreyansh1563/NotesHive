@@ -1,5 +1,6 @@
 package com.example.noteshive.screens
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -24,27 +25,32 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.noteshive.models.NotesModel
+import com.example.noteshive.viewModel.OptionsViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 
 @Composable
-fun NotesScreen(modifier: Modifier = Modifier, id: String){
+fun NotesScreen(modifier: Modifier = Modifier, id: String, navController: NavController, viewModel: OptionsViewModel){
 
     val context = LocalContext.current
 
-    val data = remember { mutableStateListOf<NotesModel>()}
+//    val data = remember { mutableStateListOf<NotesModel>()}
+//
+//    val db = FirebaseFirestore.getInstance()
+//    val branchCollection = db.collection("subjects").document(id).collection("notes")
+//
+//    LaunchedEffect(Unit) {
+//        Log.d("id", id)
+//        branchCollection.addSnapshotListener{value, error->
+//            if(error == null){
+//                val dbData = value?.toObjects(NotesModel:: class.java)
+//                data.addAll(dbData!!)
+//            }
+//        }
+//    }
 
-    val db = FirebaseFirestore.getInstance()
-    val branchCollection = db.collection("subjects").document(id).collection("notes")
-
-    LaunchedEffect(Unit) {
-        branchCollection.addSnapshotListener{value, error->
-            if(error == null){
-                val dbData = value?.toObjects(NotesModel:: class.java)
-                data.addAll(dbData!!)
-            }
-        }
-    }
+    val data = viewModel.notesData
 
 
     Column(
@@ -54,7 +60,7 @@ fun NotesScreen(modifier: Modifier = Modifier, id: String){
     ) {
         Text(
             modifier = Modifier.padding(12.dp),
-            text = "Select Branch",
+            text = "Select Notes",
             style = TextStyle(
                 color = Color.White,
                 fontSize = 32.sp,
@@ -67,7 +73,8 @@ fun NotesScreen(modifier: Modifier = Modifier, id: String){
         LazyColumn {
             items(data){
                 ListObjectsOthers(it) {
-                    Toast.makeText(context, it.downloadUrl, Toast.LENGTH_SHORT).show()
+                    Log.d(it.title, it.downloadUrl)
+                    viewModel.openPdfWithIntent(context, it.downloadUrl)
                 }
             }
         }

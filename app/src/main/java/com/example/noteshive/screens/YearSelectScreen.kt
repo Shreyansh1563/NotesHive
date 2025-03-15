@@ -13,12 +13,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -26,27 +22,28 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.noteshive.models.YearModel
 import com.example.noteshive.navigation.AppNavigationItems
-import com.google.firebase.firestore.FirebaseFirestore
+import com.example.noteshive.viewModel.OptionsViewModel
 
 @Composable
-fun YearSelectScreen(modifier: Modifier = Modifier, path: String, navController: NavHostController) {
+fun YearSelectScreen(modifier: Modifier = Modifier, navController: NavHostController, viewModel: OptionsViewModel) {
 
-    val context = LocalContext.current
+//    val context = LocalContext.current
+//
+//    val data = remember { mutableStateListOf<YearModel>()}
+//
+//    val db = FirebaseFirestore.getInstance()
+//    val yearCollection = db.collection(path.replace("|", "/")+"/years")
+//
+//    LaunchedEffect(Unit) {
+//        yearCollection.addSnapshotListener{value, error->
+//            if(error == null){
+//                val dbData = value?.toObjects(YearModel:: class.java)
+//                data.addAll(dbData!!)
+//            }
+//        }
+//    }
 
-    val data = remember { mutableStateListOf<YearModel>()}
-
-    val db = FirebaseFirestore.getInstance()
-    val yearCollection = db.collection(path.replace("|", "/")+"/years")
-
-    LaunchedEffect(Unit) {
-        yearCollection.addSnapshotListener{value, error->
-            if(error == null){
-                val dbData = value?.toObjects(YearModel:: class.java)
-                data.addAll(dbData!!)
-            }
-        }
-    }
-
+    val data = viewModel.yearData
 
     Column(
         modifier = modifier
@@ -68,7 +65,8 @@ fun YearSelectScreen(modifier: Modifier = Modifier, path: String, navController:
         LazyColumn {
             items(data){
                 ListObjectsYears(it) {
-                    navController.navigate(AppNavigationItems.SubjectSelectionScreen.route+"/${it.subjectsId.joinToString("|")}")
+                    viewModel.yearSelected(it)
+                    navController.navigate(AppNavigationItems.SubjectSelectionScreen.route)
                 }
             }
         }
