@@ -1,7 +1,6 @@
 package com.example.noteshive.screens
 
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,9 +14,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -25,33 +21,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.example.noteshive.models.NotesModel
 import com.example.noteshive.viewModel.OptionsViewModel
-import com.google.firebase.firestore.FirebaseFirestore
 
 @Composable
-fun NotesScreen(modifier: Modifier = Modifier, id: String, navController: NavController, viewModel: OptionsViewModel){
+fun NotesScreen(modifier: Modifier = Modifier, viewModel: OptionsViewModel){
 
     val context = LocalContext.current
-
-//    val data = remember { mutableStateListOf<NotesModel>()}
-//
-//    val db = FirebaseFirestore.getInstance()
-//    val branchCollection = db.collection("subjects").document(id).collection("notes")
-//
-//    LaunchedEffect(Unit) {
-//        Log.d("id", id)
-//        branchCollection.addSnapshotListener{value, error->
-//            if(error == null){
-//                val dbData = value?.toObjects(NotesModel:: class.java)
-//                data.addAll(dbData!!)
-//            }
-//        }
-//    }
-
     val data = viewModel.notesData
-
 
     Column(
         modifier = modifier

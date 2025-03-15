@@ -27,22 +27,6 @@ import com.example.noteshive.viewModel.OptionsViewModel
 @Composable
 fun YearSelectScreen(modifier: Modifier = Modifier, navController: NavHostController, viewModel: OptionsViewModel) {
 
-//    val context = LocalContext.current
-//
-//    val data = remember { mutableStateListOf<YearModel>()}
-//
-//    val db = FirebaseFirestore.getInstance()
-//    val yearCollection = db.collection(path.replace("|", "/")+"/years")
-//
-//    LaunchedEffect(Unit) {
-//        yearCollection.addSnapshotListener{value, error->
-//            if(error == null){
-//                val dbData = value?.toObjects(YearModel:: class.java)
-//                data.addAll(dbData!!)
-//            }
-//        }
-//    }
-
     val data = viewModel.yearData
 
     Column(

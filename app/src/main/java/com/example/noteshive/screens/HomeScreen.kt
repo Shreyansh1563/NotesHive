@@ -28,20 +28,6 @@ import com.example.noteshive.viewModel.OptionsViewModel
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier, navController: NavHostController,  viewModel: OptionsViewModel = viewModel()) {
 
-//    val data = remember { mutableStateListOf<BranchModel>()}
-//
-//    val db = FirebaseFirestore.getInstance()
-//    val branchCollection = db.collection("branches")
-//
-//    LaunchedEffect(Unit) {
-//        branchCollection.addSnapshotListener{value, error->
-//            if(error == null){
-//                val dbData = value?.toObjects(BranchModel:: class.java)
-//                data.addAll(dbData!!)
-//            }
-//        }
-//    }
-
     val data = viewModel.branchData
     Column(
         modifier = modifier

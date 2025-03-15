@@ -13,9 +13,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -26,27 +23,9 @@ import androidx.navigation.NavHostController
 import com.example.noteshive.models.SubjectModel
 import com.example.noteshive.navigation.AppNavigationItems
 import com.example.noteshive.viewModel.OptionsViewModel
-import com.google.firebase.firestore.FirebaseFirestore
 
 @Composable
 fun SubjectSelectScreen(modifier: Modifier = Modifier, navController: NavHostController, viewModel: OptionsViewModel) {
-
-//    val ids = id.split("|")
-//
-//    val data = remember { mutableStateListOf<SubjectModel>()}
-//
-//    val db = FirebaseFirestore.getInstance()
-//    val subjectsCollection = db.collection("subjects").whereIn("id", ids)
-//
-//    LaunchedEffect(Unit) {
-//
-//        subjectsCollection.addSnapshotListener{value, error->
-//            if(error == null){
-//                val dbData = value?.toObjects(SubjectModel:: class.java)
-//                data.addAll(dbData!!)
-//            }
-//        }
-//    }
 
     val data = viewModel.subjectData
 
@@ -72,7 +51,7 @@ fun SubjectSelectScreen(modifier: Modifier = Modifier, navController: NavHostCon
             items(data){
                 ListObjectsSubject(it) {
                     viewModel.subjectSelected(it)
-                    navController.navigate(AppNavigationItems.NotesSelectionScreen.route + "/${it.id}")
+                    navController.navigate(AppNavigationItems.NotesSelectionScreen.route)
                 }
             }
         }

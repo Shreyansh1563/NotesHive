@@ -5,7 +5,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.noteshive.screens.FireStoreImageScreen
 import com.example.noteshive.screens.HomeScreen
 import com.example.noteshive.screens.NotesScreen
 import com.example.noteshive.screens.SubjectSelectScreen
@@ -28,14 +27,8 @@ fun AppNavigation(modifier: Modifier= Modifier, navController: NavHostController
             SubjectSelectScreen(modifier = modifier, navController, viewModel)
         }
 
-        composable(route = AppNavigationItems.NotesSelectionScreen.route+"/{id}"){
-            val id = it.arguments?.getString("id")?:""
-            NotesScreen(modifier= modifier, id = id, navController, viewModel)
-        }
-
-        composable(route = "imageScreen/{url}"){
-            val id = it.arguments?.getString("url")?: ""
-          FireStoreImageScreen(id)
+        composable(route = AppNavigationItems.NotesSelectionScreen.route){
+            NotesScreen(modifier= modifier, viewModel)
         }
     }
 }
