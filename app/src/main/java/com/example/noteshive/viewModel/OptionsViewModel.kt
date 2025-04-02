@@ -29,7 +29,7 @@ class OptionsViewModel : ViewModel() {
 
     private var selectedBranch: BranchModel? = null
     private var selectedYear: YearModel? = null
-    private var selectedSubject: SubjectModel? = null
+    var selectedSubject: SubjectModel? = null
 
 
     val branchData: List<BranchModel> = _branchData
@@ -82,6 +82,7 @@ class OptionsViewModel : ViewModel() {
         _notesCollection!!.addSnapshotListener{value, error->
             if(error == null){
                 val  dbData = value?.toObjects(NotesModel:: class.java)
+                _notesData.clear()
                 _notesData.addAll(dbData!!)
             }
         }
@@ -110,7 +111,6 @@ class OptionsViewModel : ViewModel() {
 
     fun subjectSelected(it: SubjectModel){
         selectedSubject = it
-        _notesData.clear()
         loadNotesData()
     }
 }
