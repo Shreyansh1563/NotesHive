@@ -9,11 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.navigation.compose.rememberNavController
 import com.example.noteshive.navigation.AppNavigation
-import com.example.noteshive.screens.NotesScreen
-import com.example.noteshive.screens.UploadScreen
 import com.example.noteshive.ui.theme.NotesHiveTheme
 import com.example.noteshive.viewModel.OptionsViewModel
 import com.example.noteshive.viewModel.UploadScreenViewModel
