@@ -47,9 +47,9 @@ dependencies {
     //ViewModel
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.viewmodel.savedstate)
-    //PdfViewer
-    implementation(libs.coil.compose)
     // imageViewer
+    implementation(libs.coil.compose)
+
 
 
     implementation(libs.androidx.core.ktx)
@@ -62,6 +62,10 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.storage)
+    implementation(libs.firebase.auth)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

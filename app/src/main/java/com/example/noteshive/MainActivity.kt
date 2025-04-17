@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.example.noteshive.navigation.AppNavigation
 import com.example.noteshive.ui.theme.NotesHiveTheme
+import com.example.noteshive.viewModel.AuthViewModel
 import com.example.noteshive.viewModel.OptionsViewModel
 import com.example.noteshive.viewModel.UploadScreenViewModel
 
@@ -19,6 +20,7 @@ class MainActivity : ComponentActivity() {
 
     val viewModelOption by viewModels<OptionsViewModel>()
     val viewModelUpload by viewModels<UploadScreenViewModel>()
+    val viewModelAuth by viewModels<AuthViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +33,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                 ) { innerPadding ->
-                    AppNavigation(modifier = Modifier.padding(innerPadding), navController = navController, viewModelOption = viewModelOption, viewModelUpload = viewModelUpload)
+                    AppNavigation(modifier = Modifier.padding(innerPadding), navController = navController, viewModelOption = viewModelOption, viewModelUpload = viewModelUpload, viewModelAuth = viewModelAuth)
 //                    HomeScreen(modifier = Modifier.padding(innerPadding), navController)
 //                    UploadScreen(Modifier.padding(innerPadding))
 //                    NotesScreen(Modifier.padding(innerPadding), viewModelOption, navController)

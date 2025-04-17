@@ -2,9 +2,9 @@ package com.example.noteshive.viewModel
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import com.example.noteshive.models.BranchModel
 import com.example.noteshive.models.NotesModel
@@ -91,7 +91,7 @@ class OptionsViewModel : ViewModel() {
     // this function renders pdf in pdf drive
     fun openPdfWithIntent(context: Context, pdfUrl: String) {
         val intent = Intent(Intent.ACTION_VIEW).apply {
-            setDataAndType(Uri.parse(pdfUrl), "application/pdf")
+            setDataAndType(pdfUrl.toUri(), "application/pdf")
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
         context.startActivity(intent)

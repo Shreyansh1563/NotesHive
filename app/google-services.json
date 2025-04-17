@@ -12,7 +12,20 @@
           "package_name": "com.example.noteshive"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "134443467411-ogdn4pgpm7per5a2kdojh5b6t98ba3b4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.noteshive",
+            "certificate_hash": "5780fba1082f773c2195fb648b4199eabf4b31ce"
+          }
+        },
+        {
+          "client_id": "134443467411-e9h9huam60u8lktv3oa7350mgl88rumi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBNDjW5L0WWBjMjIu3gPT5_Qh9XeF7O7oo"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "134443467411-e9h9huam60u8lktv3oa7350mgl88rumi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

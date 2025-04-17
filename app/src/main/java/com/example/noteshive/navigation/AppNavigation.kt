@@ -1,22 +1,24 @@
 package com.example.noteshive.navigation
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.noteshive.screens.HomeScreen
+import com.example.noteshive.screens.LoginScreen
 import com.example.noteshive.screens.NotesScreen
+import com.example.noteshive.screens.SignupScreen
 import com.example.noteshive.screens.SubjectSelectScreen
 import com.example.noteshive.screens.UploadScreen
 import com.example.noteshive.screens.YearSelectScreen
+import com.example.noteshive.viewModel.AuthViewModel
 import com.example.noteshive.viewModel.OptionsViewModel
 import com.example.noteshive.viewModel.UploadScreenViewModel
 
 @Composable
-fun AppNavigation(modifier: Modifier= Modifier, navController: NavHostController, viewModelOption: OptionsViewModel, viewModelUpload: UploadScreenViewModel){
-    NavHost(navController = navController, startDestination = AppNavigationItems.BranchSelectionScreen.route){
+fun AppNavigation(modifier: Modifier= Modifier, navController: NavHostController, viewModelOption: OptionsViewModel, viewModelUpload: UploadScreenViewModel, viewModelAuth: AuthViewModel){
+    NavHost(navController = navController, startDestination = AppNavigationItems.LoginScreen.route){
 
         composable(route = AppNavigationItems.BranchSelectionScreen.route){
             HomeScreen(modifier, navController, viewModelOption)
@@ -36,8 +38,15 @@ fun AppNavigation(modifier: Modifier= Modifier, navController: NavHostController
 
         composable(route = AppNavigationItems.UploadScreen.route + "/{subjectCode}"){
             val subjectCode = it.arguments?.getString("subjectCode")?:""
-            Log.d("mine", "subject Code: $subjectCode")
             UploadScreen(modifier = modifier, subjectCode, viewModelUpload)
+        }
+
+        composable(route = AppNavigationItems.LoginScreen.route){
+            LoginScreen(modifier = modifier, navController, viewModelAuth)
+        }
+
+        composable(route = AppNavigationItems.SighUpScreen.route){
+            SignupScreen(modifier = modifier, viewModelAuth, navController)
         }
     }
 }
