@@ -42,7 +42,6 @@ fun HomeScreen(modifier: Modifier = Modifier, navController: NavHostController, 
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.Black)
     ) {
         Text(
             modifier = Modifier.padding(12.dp),
@@ -68,14 +67,6 @@ fun HomeScreen(modifier: Modifier = Modifier, navController: NavHostController, 
                 }
             }
         }
-//
-//        LazyColumn {
-//            items(data){
-//                ListObjectsOthers(it) {
-//
-//                }
-//            }
-//        }
     }
 }
 

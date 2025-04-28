@@ -92,7 +92,7 @@ fun UploadScreen(modifier: Modifier = Modifier, subjectCode: String, viewModel: 
             modifier = modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.fillMaxHeight(.55f))
+            Spacer(modifier = Modifier.fillMaxHeight(.50f))
             Button(
                 onClick = {launcher.launch("application/pdf")},
                 modifier = Modifier

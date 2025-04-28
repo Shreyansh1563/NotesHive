@@ -2,12 +2,12 @@ package com.example.noteshive.presentationIDs
 
 import android.content.Context
 import android.util.Log
-import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
 import com.example.noteshive.R
+import com.example.noteshive.repository.UserRepository
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
@@ -36,7 +36,11 @@ class GoogleAuthUiClient(
 
         try{
             val result = buildCredentialRequest()
-            return handelSignIn(result)
+            if(handelSignIn(result)){
+                UserRepository.setUser(firebaseAuth.currentUser)
+                return true
+            }
+            return false
         }catch(e: Exception){
             e.printStackTrace()
             if(e is CancellationException) throw e
@@ -83,10 +87,4 @@ class GoogleAuthUiClient(
             .build()
         return credentialManager.getCredential(request = request, context = context)
     }
-
-    suspend fun signOut(){
-        credentialManager.clearCredentialState(ClearCredentialStateRequest())
-        firebaseAuth.signOut()
-    }
-
 }

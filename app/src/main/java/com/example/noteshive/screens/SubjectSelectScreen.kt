@@ -2,10 +2,8 @@ package com.example.noteshive.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,12 +11,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -47,7 +41,6 @@ fun SubjectSelectScreen(modifier: Modifier = Modifier, navController: NavHostCon
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.Black)
     ) {
         Text(
             modifier = Modifier.padding(12.dp),
@@ -108,21 +101,4 @@ fun ListObjectsSubject(data: SubjectModel, onClick: ()->Unit){
             )
         }
     }
-//    Card(
-//        modifier = Modifier.fillMaxWidth().padding(15.dp),
-//        colors = CardDefaults.cardColors(
-//            containerColor = Color.DarkGray
-//        ),
-//        onClick = {onClick()}
-//    ){
-//        Text(
-//            modifier = Modifier.padding(20.dp),
-//            text = data.name,
-//            style = TextStyle(
-//                color = Color.LightGray,
-//                fontSize = 24.sp,
-//                fontWeight = FontWeight.SemiBold
-//            )
-//        )
-//    }
 }

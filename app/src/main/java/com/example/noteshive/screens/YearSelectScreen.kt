@@ -42,7 +42,6 @@ fun YearSelectScreen(modifier: Modifier = Modifier, navController: NavHostContro
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.Black)
     ) {
         Text(
             modifier = Modifier.padding(12.dp),

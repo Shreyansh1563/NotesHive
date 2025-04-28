@@ -9,7 +9,9 @@ import androidx.lifecycle.ViewModel
 import com.example.noteshive.models.BranchModel
 import com.example.noteshive.models.NotesModel
 import com.example.noteshive.models.SubjectModel
+import com.example.noteshive.models.VoteType
 import com.example.noteshive.models.YearModel
+import com.example.noteshive.repository.UserRepository
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -50,7 +52,7 @@ class OptionsViewModel : ViewModel() {
                 _branchData.addAll(dbData!!)
             }
             else {
-                Log.d("data not Loading", error.toString())
+                Log.d("mine", error.toString())
             }
         }
     }
@@ -77,7 +79,6 @@ class OptionsViewModel : ViewModel() {
     }
 
     private fun loadNotesData(){
-        Log.d("loading notes data", selectedSubject!!.id)
         _notesCollection = _db.collection("/subjects/${selectedSubject!!.id}/notes")
         _notesCollection!!.addSnapshotListener{value, error->
             if(error == null){
@@ -112,5 +113,50 @@ class OptionsViewModel : ViewModel() {
     fun subjectSelected(it: SubjectModel){
         selectedSubject = it
         loadNotesData()
+    }
+
+
+    fun upVote(note: NotesModel){
+        val dbNote = _db.document("/subjects/${selectedSubject!!.id}/notes/${note.id}")
+        when(note.userVotes.getOrDefault(UserRepository.getUser()!!.uid, VoteType.NOVOTE)){
+            VoteType.NOVOTE -> {
+                dbNote.update(
+                    "upVote", note.upVote+1,
+                    "userVotes.${UserRepository.getUser()!!.uid}", "UPVOTE"
+                )
+            }
+            VoteType.DOWNVOTE -> {
+                dbNote.update(
+                    "upVote", note.upVote+1,
+                    "downVote", note.downVote-1,
+                    "userVotes.${UserRepository.getUser()!!.uid}", "UPVOTE"
+                )
+            }
+            else->{
+                Log.d("mine","not change")
+            }
+        }
+    }
+
+    fun downVote(note: NotesModel){
+        val dbNote = _db.document("/subjects/${selectedSubject!!.id}/notes/${note.id}")
+        when(note.userVotes.getOrDefault(UserRepository.getUser()!!.uid, VoteType.NOVOTE)){
+            VoteType.NOVOTE -> {
+                dbNote.update(
+                    "downVote", note.downVote+1,
+                    "userVotes.${UserRepository.getUser()!!.uid}", "DOWNVOTE"
+                )
+            }
+            VoteType.UPVOTE -> {
+                dbNote.update(
+                    "upVote", note.upVote-1,
+                    "downVote", note.downVote+1,
+                    "userVotes.${UserRepository.getUser()!!.uid}", "DOWNVOTE"
+                )
+            }
+            else->{
+                Log.d("mine","not change")
+            }
+        }
     }
 }
