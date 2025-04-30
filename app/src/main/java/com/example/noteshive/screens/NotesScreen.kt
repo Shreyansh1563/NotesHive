@@ -39,6 +39,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
 import com.example.noteshive.R
 import com.example.noteshive.models.NotesModel
 import com.example.noteshive.models.VoteType
@@ -115,10 +116,9 @@ fun NotesCard(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                Image(
-                    painterResource(R.drawable.ic_launcher_background),
-                    contentDescription = "",
-                    contentScale = ContentScale.Fit,
+                AsyncImage(
+                    model = note.imageUrl,
+                    contentDescription = "profile pic",
                     modifier = Modifier
                         .height(30.dp)
                         .clip(RoundedCornerShape(20.dp))
@@ -130,15 +130,28 @@ fun NotesCard(
                 )
             }
             Spacer(modifier = Modifier.height(10.dp))
-            Image(
-                painter = painterResource(R.drawable.background),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(180.dp)
-                    .clip(RoundedCornerShape(10.dp)),
-                contentScale = ContentScale.Crop,
-                contentDescription = ""
-            )
+            if(note.thumbnailUrl.isEmpty()) {
+                Image(
+                    painter = painterResource(R.drawable.background),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(180.dp)
+                        .clip(RoundedCornerShape(10.dp)),
+                    contentScale = ContentScale.Crop,
+                    contentDescription = ""
+                )
+            }
+            else{
+                AsyncImage(
+                    model = note.thumbnailUrl,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(180.dp)
+                        .clip(RoundedCornerShape(10.dp)),
+                    contentScale = ContentScale.Crop,
+                    contentDescription = ""
+                )
+            }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 IconButton(

@@ -21,11 +21,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -34,13 +36,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.noteshive.R
+import com.example.noteshive.presentationIDs.Thumbnail
 import com.example.noteshive.viewModel.UploadScreenViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun UploadScreen(modifier: Modifier = Modifier, subjectCode: String, viewModel: UploadScreenViewModel = viewModel()) { //, viewModel: UploadScreenViewModel = viewModel()) {
     val title by viewModel.title.collectAsState()
     val uri by viewModel.uri.collectAsState()
     val isUploading by viewModel.isUploading.collectAsState()
+    val thumbnail = Thumbnail()
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {
         viewModel.setUri(it)
     }
@@ -125,7 +132,11 @@ fun UploadScreen(modifier: Modifier = Modifier, subjectCode: String, viewModel: 
                 .padding(16.dp),
             colors = ButtonDefaults.buttonColors(containerColor = colorResource(R.color.yellow)),
             elevation = ButtonDefaults.buttonElevation(defaultElevation = 8.dp),
-            onClick = {viewModel.uploadPdf()}
+            onClick = {
+                coroutineScope.launch {
+                    viewModel.uploadPdf(thumbnail.generatePdfThumbnailUri(context, uri))
+                }
+            }
         ) {
             Text("Upload Notes", fontSize = 30.sp)
         }

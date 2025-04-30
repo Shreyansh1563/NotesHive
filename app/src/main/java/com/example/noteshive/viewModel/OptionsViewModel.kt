@@ -84,7 +84,7 @@ class OptionsViewModel : ViewModel() {
             if(error == null){
                 val  dbData = value?.toObjects(NotesModel:: class.java)
                 _notesData.clear()
-                _notesData.addAll(dbData!!)
+                _notesData.addAll(dbData!!.sortedByDescending { it.upVote - it.downVote })
             }
         }
     }

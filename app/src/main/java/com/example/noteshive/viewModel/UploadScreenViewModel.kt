@@ -4,6 +4,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.noteshive.models.NotesModel
+import com.example.noteshive.repository.UserRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,6 +18,7 @@ import java.util.UUID
 class UploadScreenViewModel : ViewModel(){
     private val _isUploading = MutableStateFlow<Boolean>(false)
     private lateinit var downloadUrl: String
+    private lateinit var thumbnailUrl: String
     private val _uri = MutableStateFlow<Uri?>(null)
     private val storageReference  = FirebaseStorage.getInstance().reference
     private val _db = FirebaseFirestore.getInstance()
@@ -36,17 +38,25 @@ class UploadScreenViewModel : ViewModel(){
     }
 
 
-    fun uploadPdf(){
-        val reference = storageReference.child("/NotesPdf/${generateUniquePdfName()}")
-        if(_uri.value != null && !title.value.isEmpty() && subjectCode != "") {
+    fun uploadPdf(thumbnailUri: Uri?){
+        val name = generateUniquePdfName()
+        val pdfReference = storageReference.child("/NotesPdf/$name")
+        val thumbnailReference = storageReference.child("/thumbnails/$name")
+        if(_uri.value != null && !title.value.isEmpty() && subjectCode != "" && thumbnailUri != null) {
             _isUploading.value = true
-            val uploadTask = reference.putFile(_uri.value!!)
+            val uploadTask = pdfReference.putFile(_uri.value!!)
             uploadTask.addOnSuccessListener{
-                reference.downloadUrl.addOnSuccessListener { uri ->
-                    downloadUrl = uri.toString()
-                    addUploadOnFireStore()
-                    _isUploading.value = false
-                    Log.d("mine", "data uploaded $downloadUrl")
+                pdfReference.downloadUrl.addOnSuccessListener { url ->
+                    downloadUrl = url.toString()
+                    thumbnailReference.putFile(thumbnailUri).addOnSuccessListener {
+                        thumbnailReference.downloadUrl.addOnSuccessListener {
+                            thumbnailUrl = it.toString()
+                            addUploadOnFireStore()
+                            _isUploading.value = false
+                            Log.d("mine", "data uploaded $downloadUrl")
+                        }
+                    }
+
                 }
             }
                 .addOnFailureListener{
@@ -61,10 +71,14 @@ class UploadScreenViewModel : ViewModel(){
 
     private fun addUploadOnFireStore(){
         val newDocRef =  _db.collection("/subjects/$subjectCode/notes").document()
+        val user = UserRepository.getUser()
         val data = NotesModel(
-            newDocRef.id,
-            title.value,
-            downloadUrl
+            id = newDocRef.id,
+            title = title.value,
+            downloadUrl = downloadUrl,
+            thumbnailUrl = thumbnailUrl,
+            ownerName = user!!.displayName.toString(),
+            imageUrl = user.photoUrl.toString()
         )
         newDocRef.set(data)
             .addOnSuccessListener{Log.d("mine", "Data added on FireStore")}
