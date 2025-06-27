@@ -58,13 +58,13 @@ fun NotesScreen(modifier: Modifier = Modifier, viewModel: OptionsViewModel, navC
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.Black)
+//                .background(Color.Black)
         ) {
             Text(
                 modifier = Modifier.padding(12.dp),
                 text = "Select Notes",
                 style = TextStyle(
-                    color = Color.White,
+//                    color = Color.White,
                     fontSize = 32.sp,
                     fontWeight = FontWeight.Bold
                 )

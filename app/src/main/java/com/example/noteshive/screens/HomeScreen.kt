@@ -47,7 +47,7 @@ fun HomeScreen(modifier: Modifier = Modifier, navController: NavHostController, 
             modifier = Modifier.padding(12.dp),
             text = "Select Branch",
             style = TextStyle(
-                color = Color.White,
+//                color = Color.White,
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Bold
             )
