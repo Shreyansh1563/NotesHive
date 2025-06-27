@@ -73,21 +73,33 @@ fun UploadScreen(modifier: Modifier = Modifier, subjectCode: String, viewModel: 
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Image(
-                    painter = painterResource(R.drawable.icon_354352),
-                    contentDescription = "file logo",
-                    contentScale = ContentScale.Fit,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight(.5f)
-                        .padding(top = 60.dp)
-                )
+                if(isUploading){
+                    CircularProgressIndicator(
+                        modifier = Modifier.fillMaxWidth()
+                            .fillMaxHeight(.5f)
+                            .padding(top = 60.dp),
+                        color = Color.White,
+                        strokeWidth = 16.dp
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                }
+                else {
+                    Image(
+                        painter = painterResource(R.drawable.icon_354352),
+                        contentDescription = "file logo",
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(.5f)
+                            .padding(top = 60.dp)
+                    )
+                }
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(18.dp),
-                    text = uri?.toString()?: "No File Selected...",
+                    text = if(isUploading) "Uploading..." else uri?.toString() ?: "No File Selected...",
                     fontWeight = FontWeight.Bold,
                     fontSize = 30.sp,
                     textAlign = TextAlign.Center
@@ -121,9 +133,6 @@ fun UploadScreen(modifier: Modifier = Modifier, subjectCode: String, viewModel: 
                 label = { Text("Notes Title", color = Color.Gray) },
                 shape = RoundedCornerShape(8.dp),
             )
-            if(isUploading){
-                CircularProgressIndicator(modifier.height(30.dp), color = Color.White)
-            }
         }
         Button(
             modifier = Modifier

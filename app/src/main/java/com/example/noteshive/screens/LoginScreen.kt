@@ -42,8 +42,11 @@ fun LoginScreen(modifier: Modifier = Modifier, navController: NavController, vie
     var password by remember { mutableStateOf("") }
 
     val authState = viewModel.authState.collectAsState()
+    val loggingIn = viewModel.loggingIn
     val context = LocalContext.current
-    viewModel.checkAuthStatus()
+    LaunchedEffect(Unit) {
+        viewModel.checkAuthStatus()
+    }
     LaunchedEffect(authState.value) {
         when(authState.value){
             is AuthState.Authenticated -> navController.navigate(AppNavigationItems.BranchSelectionScreen.route){popUpTo(0)}
@@ -94,7 +97,8 @@ fun LoginScreen(modifier: Modifier = Modifier, navController: NavController, vie
         Button(
             onClick = {
                 viewModel.login(email, password)
-            }
+            },
+            enabled = !loggingIn
         ) {
             Text("Login")
         }

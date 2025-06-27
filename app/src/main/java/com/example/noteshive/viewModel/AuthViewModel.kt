@@ -1,5 +1,6 @@
 package com.example.noteshive.viewModel
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.noteshive.presentationIDs.AuthState
 import com.example.noteshive.repository.UserRepository
@@ -11,7 +12,11 @@ class AuthViewModel: ViewModel() {
     private val auth  = FirebaseAuth.getInstance()
 
     private val _authState = MutableStateFlow<AuthState>(AuthState.UnAuthenticated)
+
+    private val _loggingIn = mutableStateOf(false)
+
     val authState = _authState
+    val loggingIn = _loggingIn.value
 
     fun getUser(): FirebaseUser? {
         UserRepository.setUser(auth.currentUser)
@@ -31,11 +36,14 @@ class AuthViewModel: ViewModel() {
             _authState.value = AuthState.Error("Email or Password can't be empty")
             return
         }
+        _loggingIn.value = true
         auth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
+                _loggingIn.value = false
                 _authState.value = AuthState.Authenticated
                 getUser()
             }.addOnFailureListener {
+                _loggingIn.value = false
                 _authState.value = AuthState.Error(it.message?:"Something Went Wrong")
             }
     }

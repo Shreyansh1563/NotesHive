@@ -9,16 +9,23 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.example.noteshive.navigation.AppNavigation
 import com.example.noteshive.navigation.AppNavigationItems
+import com.example.noteshive.presentationIDs.AuthState
 import com.example.noteshive.ui.theme.NotesHiveTheme
 import com.example.noteshive.viewModel.AuthViewModel
 import com.example.noteshive.viewModel.OptionsViewModel
@@ -37,6 +44,7 @@ class MainActivity : ComponentActivity() {
         setContent {
 
             val navController = rememberNavController()
+            var expanded by remember { mutableStateOf(false) }
 
             NotesHiveTheme {
                 Scaffold(
@@ -47,13 +55,27 @@ class MainActivity : ComponentActivity() {
                             actions = {
                                 IconButton(
                                     onClick = {
-                                        viewModelAuth.sighOut()
-                                        navController.navigate(AppNavigationItems.LoginScreen.route) {
-                                            popUpTo(0)
+                                        if(viewModelAuth.authState.value is AuthState.Authenticated) {
+                                            expanded = true
                                         }
                                     }
                                 ) {
                                     Icon(Icons.Default.AccountCircle, contentDescription = "log out")
+                                    DropdownMenu(
+                                        expanded = expanded,
+                                        onDismissRequest = { expanded = false }
+                                    ) {
+                                        DropdownMenuItem(
+                                            text = { Text("logout") },
+                                            onClick = {
+                                                expanded = false
+                                                viewModelAuth.sighOut()
+                                                navController.navigate(AppNavigationItems.LoginScreen.route) {
+                                                    popUpTo(0)
+                                                }
+                                            }
+                                        )
+                                    }
                                 }
                             }
                         )
